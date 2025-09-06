@@ -1,10 +1,11 @@
 import { useEffect, useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import API from "../api/axios";
 
 export default function Notes() {
   const [notes, setNotes] = useState([]);
   const [loading, setLoading] = useState(false);
+  const navigate = useNavigate();
 
   const fetchNotes = async () => {
     setLoading(true);
@@ -13,7 +14,12 @@ export default function Notes() {
       setNotes(res.data);
     } catch (err) {
       console.error(err.response?.data || err.message);
-      alert("Failed to fetch notes. Please login again.");
+      if (err.response?.status === 403) {
+        alert("Session expired. Please login again.");
+        navigate("/login");
+      } else {
+        alert("Failed to fetch notes.");
+      }
     } finally {
       setLoading(false);
     }
@@ -52,17 +58,20 @@ export default function Notes() {
       {notes.length === 0 ? (
         <p>No notes yet.</p>
       ) : (
-        notes.map((note) => (
-          <div key={note.id} className="note-card">
-            <h3>{note.title}</h3>
-            <p>{note.content}</p>
-            <div>
-              <Link to={`/notes/${note.id}`}>Edit</Link>
-              <button onClick={() => deleteNote(note.id)}>Delete</button>
-              <button onClick={() => shareNote(note.id)}>Share</button>
+        notes.map((note) => {
+          const noteId = note._id || note.id; // MongoDB safe
+          return (
+            <div key={noteId} className="note-card">
+              <h3>{note.title}</h3>
+              <p>{note.content}</p>
+              <div>
+                <Link to={`/notes/${noteId}`}>Edit</Link>
+                <button onClick={() => deleteNote(noteId)}>Delete</button>
+                <button onClick={() => shareNote(noteId)}>Share</button>
+              </div>
             </div>
-          </div>
-        ))
+          );
+        })
       )}
     </div>
   );

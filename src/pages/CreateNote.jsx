@@ -10,19 +10,13 @@ export default function CreateNote() {
   const handleSubmit = async (e) => {
     e.preventDefault();
     setLoading(true);
-
     try {
-      // Axios interceptor automatically adds JWT
-      await API.post("/notes", form);
-
+      await API.post("/notes", form); // JWT attached automatically
       alert("Note created successfully");
-      navigate("/notes"); // Redirect to notes list page
+      navigate("/notes"); // redirect to notes list
     } catch (err) {
       console.error(err.response?.data || err.message);
-      alert(
-        "Failed to create note: " +
-          (err.response?.data?.message || err.message)
-      );
+      alert("Failed to create note: " + (err.response?.data?.message || err.message));
     } finally {
       setLoading(false);
     }
