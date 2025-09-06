@@ -10,16 +10,14 @@ export default function CreateNote() {
   const handleSubmit = async (e) => {
     e.preventDefault();
     setLoading(true);
-    try {
-      await API.post("/notes", form); // JWT will be automatically attached via API.js
-      alert("Note created successfully");
-      navigate("/notes");
-    } catch (err) {
-      console.error(err.response?.data || err.message);
-      alert(err.response?.data?.message || "Failed to create note");
-    } finally {
-      setLoading(false);
-    }
+   try {
+  await API.post("/notes", form);
+  alert("Note created successfully");
+  navigate("/notes");
+} catch (err) {
+  console.error(err.response?.data || err.message); // <-- see backend response
+  alert("Failed to create note: " + (err.response?.data?.message || err.message));
+}
   };
 
   return (
