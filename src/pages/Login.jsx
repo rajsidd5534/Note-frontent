@@ -9,31 +9,32 @@ export default function Login() {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      const res = await API.post("/login", form);
-      localStorage.setItem("jwt", res.data.token);
+      const res = await API.post("/auth/login", form);
+      localStorage.setItem("jwt", res.data.jwt_token);
       navigate("/notes");
-    } catch (err) {
-      alert("Login failed: " + (err.response?.data?.message || err.message));
+    } catch {
+      alert("Invalid credentials");
     }
   };
 
   return (
-    <form onSubmit={handleSubmit}>
-      <input
-        type="email"
-        placeholder="Email"
-        value={form.email}
-        onChange={(e) => setForm({ ...form, email: e.target.value })}
-        required
-      />
-      <input
-        type="password"
-        placeholder="Password"
-        value={form.password}
-        onChange={(e) => setForm({ ...form, password: e.target.value })}
-        required
-      />
-      <button type="submit">Login</button>
-    </form>
+    <div className="form-container">
+      <h2>Login</h2>
+      <form onSubmit={handleSubmit}>
+        <input
+          type="email"
+          placeholder="Email"
+          value={form.email}
+          onChange={(e) => setForm({ ...form, email: e.target.value })}
+        />
+        <input
+          type="password"
+          placeholder="Password"
+          value={form.password}
+          onChange={(e) => setForm({ ...form, password: e.target.value })}
+        />
+        <button type="submit">Login</button>
+      </form>
+    </div>
   );
 }
