@@ -10,14 +10,30 @@ export default function CreateNote() {
   const handleSubmit = async (e) => {
     e.preventDefault();
     setLoading(true);
-   try {
-  await API.post("/notes", form);
-  alert("Note created successfully");
-  navigate("/notes");
-} catch (err) {
-  console.error(err.response?.data || err.message); // <-- see backend response
-  alert("Failed to create note: " + (err.response?.data?.message || err.message));
-}
+
+    try {
+      // Get token from localStorage
+      const token = localStorage.getItem("jwt");
+      if (!token) throw new Error("You are not logged in");
+
+      await API.post(
+        "/notes", // make sure your axios baseURL includes /api if backend uses /api/notes
+        form,
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
+
+      alert("Note created successfully");
+      navigate("/notes");
+    } catch (err) {
+      console.error(err.response?.data || err.message);
+      alert("Failed to create note: " + (err.response?.data?.message || err.message));
+    } finally {
+      setLoading(false);
+    }
   };
 
   return (
