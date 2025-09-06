@@ -1,0 +1,188 @@
+/* Global Styles */
+body {
+  font-family: "Segoe UI", Roboto, sans-serif;
+  background: #f4f6f9;
+  margin: 0;
+  color: #333;
+}
+
+/* Navbar */
+.navbar {
+  background: #1e1e2f;
+  color: #fff;
+  padding: 1rem 2rem;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+}
+
+.navbar h2 {
+  margin: 0;
+  font-size: 1.5rem;
+  letter-spacing: 1px;
+}
+
+.navbar a,
+.navbar button {
+  color: #fff;
+  margin-left: 1rem;
+  text-decoration: none;
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  font-size: 1rem;
+  transition: 0.3s;
+}
+
+.navbar a:hover,
+.navbar button:hover {
+  color: #00d1b2;
+}
+
+/* Form Containers */
+.form-container {
+  max-width: 420px;
+  margin: 4rem auto;
+  background: #fff;
+  padding: 2.5rem;
+  border-radius: 12px;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+  animation: fadeIn 0.4s ease;
+}
+
+.form-container h2 {
+  margin-bottom: 1.5rem;
+  text-align: center;
+  color: #1e1e2f;
+}
+
+.form-container input,
+.form-container textarea {
+  width: 100%;
+  margin: 0.6rem 0;
+  padding: 0.9rem;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  font-size: 1rem;
+  transition: border 0.3s;
+}
+
+.form-container input:focus,
+.form-container textarea:focus {
+  outline: none;
+  border-color: #00d1b2;
+  box-shadow: 0 0 4px rgba(0, 209, 178, 0.4);
+}
+
+.form-container button {
+  width: 100%;
+  margin-top: 1rem;
+  padding: 0.9rem;
+  border: none;
+  border-radius: 8px;
+  background: #00d1b2;
+  color: #fff;
+  font-size: 1.1rem;
+  font-weight: 500;
+  cursor: pointer;
+  transition: 0.3s;
+}
+
+.form-container button:hover {
+  background: #00bfa5;
+}
+
+/* Notes Page */
+.notes-container {
+  max-width: 900px;
+  margin: 2rem auto;
+  padding: 1rem;
+}
+
+.notes-container h2 {
+  margin-bottom: 1.5rem;
+  text-align: center;
+  color: #1e1e2f;
+}
+
+.note-card {
+  background: #fff;
+  border-radius: 12px;
+  padding: 1.5rem;
+  margin-bottom: 1.5rem;
+  box-shadow: 0 2px 12px rgba(0, 0, 0, 0.08);
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.note-card:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.15);
+}
+
+.note-card h3 {
+  margin: 0 0 0.6rem;
+  color: #222;
+}
+
+.note-card p {
+  color: #555;
+  line-height: 1.4;
+  margin-bottom: 1rem;
+}
+
+/* Note Actions */
+.note-card div {
+  display: flex;
+  gap: 0.6rem;
+}
+
+.note-card a,
+.note-card button {
+  padding: 0.5rem 0.9rem;
+  border-radius: 6px;
+  font-size: 0.9rem;
+  border: none;
+  cursor: pointer;
+  transition: 0.3s;
+}
+
+.note-card a {
+  background: #007bff;
+  color: #fff;
+  text-decoration: none;
+}
+
+.note-card a:hover {
+  background: #0069d9;
+}
+
+.note-card button:nth-child(2) {
+  background: #e74c3c;
+  color: #fff;
+}
+
+.note-card button:nth-child(2):hover {
+  background: #c0392b;
+}
+
+.note-card button:nth-child(3) {
+  background: #27ae60;
+  color: #fff;
+}
+
+.note-card button:nth-child(3):hover {
+  background: #219150;
+}
+
+/* Animation */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
