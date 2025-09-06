@@ -4,12 +4,22 @@ import API from "../api/axios";
 
 export default function CreateNote() {
   const [form, setForm] = useState({ title: "", content: "" });
+  const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    await API.post("/notes", form);
-    navigate("/notes");
+    setLoading(true);
+    try {
+      await API.post("/notes", form); // JWT will be automatically attached via API.js
+      alert("Note created successfully");
+      navigate("/notes");
+    } catch (err) {
+      console.error(err.response?.data || err.message);
+      alert(err.response?.data?.message || "Failed to create note");
+    } finally {
+      setLoading(false);
+    }
   };
 
   return (
@@ -21,13 +31,17 @@ export default function CreateNote() {
           placeholder="Title"
           value={form.title}
           onChange={(e) => setForm({ ...form, title: e.target.value })}
+          required
         />
         <textarea
           placeholder="Content"
           value={form.content}
           onChange={(e) => setForm({ ...form, content: e.target.value })}
+          required
         />
-        <button type="submit">Save</button>
+        <button type="submit" disabled={loading}>
+          {loading ? "Saving..." : "Save"}
+        </button>
       </form>
     </div>
   );

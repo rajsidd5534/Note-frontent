@@ -5,12 +5,27 @@ import API from "../api/axios";
 export default function SharedNote() {
   const { shareId } = useParams();
   const [note, setNote] = useState(null);
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    API.get(`/notes/share/${shareId}`).then((res) => setNote(res.data));
+    const fetchSharedNote = async () => {
+      setLoading(true);
+      try {
+        const res = await API.get(`/notes/share/${shareId}`);
+        setNote(res.data);
+      } catch (err) {
+        console.error(err.response?.data || err.message);
+        alert("Shared note not found or has been removed.");
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchSharedNote();
   }, [shareId]);
 
-  if (!note) return <p>Loading...</p>;
+  if (loading) return <p>Loading shared note...</p>;
+  if (!note) return <p>Note not available.</p>;
 
   return (
     <div className="form-container">
