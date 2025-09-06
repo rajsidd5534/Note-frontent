@@ -12,25 +12,17 @@ export default function CreateNote() {
     setLoading(true);
 
     try {
-      // Get token from localStorage
-      const token = localStorage.getItem("jwt");
-      if (!token) throw new Error("You are not logged in");
-
-      await API.post(
-        "/notes", // make sure your axios baseURL includes /api if backend uses /api/notes
-        form,
-        {
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-        }
-      );
+      // Axios interceptor automatically adds JWT
+      await API.post("/notes", form);
 
       alert("Note created successfully");
-      navigate("/notes");
+      navigate("/notes"); // Redirect to notes list page
     } catch (err) {
       console.error(err.response?.data || err.message);
-      alert("Failed to create note: " + (err.response?.data?.message || err.message));
+      alert(
+        "Failed to create note: " +
+          (err.response?.data?.message || err.message)
+      );
     } finally {
       setLoading(false);
     }
