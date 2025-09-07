@@ -1,39 +1,49 @@
 import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
-import axios from "axios";  // use plain axios
+import axios from "axios";
 
 export default function SharedNote() {
-  const { shareId } = useParams();
+  const { shareId } = useParams(); // get shareId from URL
   const [note, setNote] = useState(null);
   const [loading, setLoading] = useState(true);
-  
-useEffect(() => {
-  if (!shareId) return; // ✅ prevent unnecessary requests
-  console.log("Fetching shared note for:", shareId);
+  const [error, setError] = useState("");
 
-  const fetchSharedNote = async () => {
-    setLoading(true);
-    try {
-      const res = await axios.get(
-        `https://notes-backend-production.up.railway.app/api/notes/share/${shareId}`
-      );
-      console.log("Fetched note:", res.data);
-      setNote(res.data);
-    } catch (err) {
-      console.error(err.response?.data || err.message);
-      alert("Shared note not found or has been removed.");
-    } finally {
-      setLoading(false);
-    }
-  };
+  useEffect(() => {
+    if (!shareId) return;
 
-  fetchSharedNote();
-}, [shareId]);
+    let isMounted = true; // prevent state update if unmounted
+
+    const fetchSharedNote = async () => {
+      setLoading(true);
+      setError("");
+      try {
+        const res = await axios.get(
+          `https://notes-backend-production.up.railway.app/api/notes/share/${shareId}`
+        );
+        if (isMounted) setNote(res.data);
+      } catch (err) {
+        console.error(err.response?.data || err.message);
+        if (isMounted) setError("Shared note not found or has been removed.");
+      } finally {
+        if (isMounted) setLoading(false);
+      }
+    };
+
+    fetchSharedNote();
+
+    return () => {
+      isMounted = false;
+    };
+  }, [shareId]);
+
+  if (loading) return <p>Loading shared note...</p>;
+  if (error) return <p>{error}</p>;
+  if (!note) return <p>Note not available.</p>;
 
   return (
-    <div className="form-container">
-      <h2>{note.title}</h2>
-      <p>{note.content}</p>
+    <div className="shared-note-container" style={{ padding: "20px", maxWidth: "600px", margin: "auto", border: "1px solid #ccc", borderRadius: "8px" }}>
+      <h2 style={{ marginBottom: "10px" }}>{note.title}</h2>
+      <p style={{ whiteSpace: "pre-wrap" }}>{note.content}</p>
     </div>
   );
 }
