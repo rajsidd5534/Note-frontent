@@ -5,8 +5,10 @@ export default defineConfig({
   plugins: [react()],
   server: {
     proxy: {
-      '/api': 'https://note-backend-production-bfdb.up.railway.app', // your backend
+      // Forward API requests to backend
+      '/api': 'https://note-backend-production-bfdb.up.railway.app',
     },
-    historyApiFallback: true, // ✅ ensures SPA routing works on refresh
+    // Enable SPA routing: refresh works on all routes
+    historyApiFallback: true,
   },
 });
