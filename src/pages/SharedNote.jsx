@@ -6,7 +6,10 @@ export default function SharedNote() {
   const { shareId } = useParams();
   const [note, setNote] = useState(null);
   const [loading, setLoading] = useState(true);
+  
 useEffect(() => {
+  console.log("Fetching shared note for:", shareId); // ✅ log here
+
   const fetchSharedNote = async () => {
     setLoading(true);
     try {
