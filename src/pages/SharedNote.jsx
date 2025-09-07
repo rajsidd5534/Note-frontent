@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
-import API from "../api/axios";
+import axios from "axios";  // use plain axios
 
 export default function SharedNote() {
   const { shareId } = useParams();
@@ -11,7 +11,9 @@ export default function SharedNote() {
     const fetchSharedNote = async () => {
       setLoading(true);
       try {
-        const res = await API.get(`/notes/share/${shareId}`);
+        const res = await axios.get(
+         `https://notes-backend-production.up.railway.app/api/notes/share/${shareId}`
+        ); // no auth header
         setNote(res.data);
       } catch (err) {
         console.error(err.response?.data || err.message);
