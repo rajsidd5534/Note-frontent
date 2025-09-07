@@ -3,7 +3,7 @@ import { useParams } from "react-router-dom";
 import axios from "axios";
 
 export default function SharedNote() {
-  const { shareId } = useParams(); // get shareId from URL
+  const { shareId } = useParams();
   const [note, setNote] = useState(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
@@ -11,7 +11,7 @@ export default function SharedNote() {
   useEffect(() => {
     if (!shareId) return;
 
-    let isMounted = true; // prevent state update if unmounted
+    let isMounted = true;
 
     const fetchSharedNote = async () => {
       setLoading(true);
@@ -31,9 +31,7 @@ export default function SharedNote() {
 
     fetchSharedNote();
 
-    return () => {
-      isMounted = false;
-    };
+    return () => { isMounted = false; };
   }, [shareId]);
 
   if (loading) return <p>Loading shared note...</p>;
@@ -41,8 +39,8 @@ export default function SharedNote() {
   if (!note) return <p>Note not available.</p>;
 
   return (
-    <div className="shared-note-container" style={{ padding: "20px", maxWidth: "600px", margin: "auto", border: "1px solid #ccc", borderRadius: "8px" }}>
-      <h2 style={{ marginBottom: "10px" }}>{note.title}</h2>
+    <div style={{ padding: "20px", maxWidth: "600px", margin: "auto", border: "1px solid #ccc", borderRadius: "8px" }}>
+      <h2>{note.title}</h2>
       <p style={{ whiteSpace: "pre-wrap" }}>{note.content}</p>
     </div>
   );
