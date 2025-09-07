@@ -8,7 +8,8 @@ export default function SharedNote() {
   const [loading, setLoading] = useState(true);
   
 useEffect(() => {
-  console.log("Fetching shared note for:", shareId); // ✅ log here
+  if (!shareId) return; // ✅ prevent unnecessary requests
+  console.log("Fetching shared note for:", shareId);
 
   const fetchSharedNote = async () => {
     setLoading(true);
@@ -16,7 +17,7 @@ useEffect(() => {
       const res = await axios.get(
         `https://notes-backend-production.up.railway.app/api/notes/share/${shareId}`
       );
-      console.log("Fetched note:", res.data); // ✅ log here
+      console.log("Fetched note:", res.data);
       setNote(res.data);
     } catch (err) {
       console.error(err.response?.data || err.message);
@@ -28,9 +29,6 @@ useEffect(() => {
 
   fetchSharedNote();
 }, [shareId]);
-
-  if (loading) return <p>Loading shared note...</p>;
-  if (!note) return <p>Note not available.</p>;
 
   return (
     <div className="form-container">
