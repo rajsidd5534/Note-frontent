@@ -19,7 +19,7 @@ export default function App() {
         <Route path="/notes" element={<Notes />} />
         <Route path="/create" element={<CreateNote />} />
         <Route path="/notes/:id" element={<EditNote />} />
-        <Route path="/share/:shareId" element={<SharedNote />} />
+       <Route path="/shared/:shareId" element={<SharedNote />} />
       </Routes>
     </BrowserRouter>
   );

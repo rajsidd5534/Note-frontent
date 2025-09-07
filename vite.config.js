@@ -5,7 +5,8 @@ export default defineConfig({
   plugins: [react()],
   server: {
     proxy: {
-      '/api': 'http://localhost:8080',
+      '/api': 'https://note-backend-production-bfdb.up.railway.app', // your backend
     },
+    historyApiFallback: true, // ✅ ensures SPA routing works on refresh
   },
 });
