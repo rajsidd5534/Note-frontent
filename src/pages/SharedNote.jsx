@@ -18,7 +18,7 @@ export default function SharedNote() {
       setError("");
       try {
         const res = await axios.get(
-          `https://notes-backend-production.up.railway.app/api/notes/share/${shareId}`
+          `https://note-backend-production-bfdb.up.railway.app/api/notes/share/${shareId}`
         );
         if (isMounted) setNote(res.data);
       } catch (err) {
